@@ -13,7 +13,7 @@ from .base_config import base_config, fsdp_checkpointing_base, get_policy_base
 class train_config(base_config):
 
     # model
-    model_name = "60M"
+    model_name = "8B"
 
     # available models - name is ~ num params
     # 60M
@@ -26,8 +26,6 @@ class train_config(base_config):
     # 3B
     # 8B
 
-    # mixed precision
-    use_mixed_precision: bool = True
     # checkpoint models
     save_model_checkpoint: bool = False
     load_model_checkpoint: bool = False
@@ -188,8 +186,8 @@ def get_dataset():
     return GeneratedDataset()
 
 
-def get_policy():
-    return get_policy_base({Residual})
+def get_policy(use_nonrecursive, bucket_size):
+    return get_policy_base(use_nonrecursive, bucket_size, {Residual})
 
 
 def fsdp_checkpointing(model):
